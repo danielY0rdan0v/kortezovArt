@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kortezov Art | Начало</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">Kortezov Art</a>
+
+    <div class="hamburger" onclick="toggleMenu()">
+        &#9776;
+    </div>
+
+    <ul class="nav-links" id="nav-menu">
+        <li><a href="/">Начало</a></li>
+        <li><a href="/products">Продукти</a></li>
+    </ul>
+</nav>
+
+<main class="hero-section">
+    <h1>Добре дошли в света на металното изкуство</h1>
+    <p>Аз съм Деката и създавам уникални, ръчно изработени скулптури от метал. Всяко творение носи собствена душа и история.</p>
+    <a href="/products" class="cta-button">Разгледай творбите</a>
+</main>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+</script>
+
+</body>
+</html>

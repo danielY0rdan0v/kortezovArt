@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ Панел | Kortezov Art</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <h3>Обработка на файловете... Моля, изчакайте!</h3>
+</div>
+<div id="toast-notification"></div>
+
+<nav class="navbar">
+    <a href="/" class="logo">Kortezov Art</a>
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+    <ul class="nav-links" id="nav-menu">
+        <li><a href="/">Начало</a></li>
+        <li><a href="/products">Продукти</a></li>
+    </ul>
+</nav>
+
+<main class="admin-page">
+    <div class="admin-layout">
+
+        <section class="admin-section form-section">
+            <h2 id="form-title">Добави нова творба</h2>
+            <div class="admin-card">
+                <div class="form-group">
+                    <label>Заглавие</label>
+                    <input type="text" id="title" placeholder="Име на фигурата...">
+                </div>
+                <div class="form-group">
+                    <label>Цена (лв)</label>
+                    <input type="number" id="price" placeholder="Пример: 350.00">
+                </div>
+
+                <div class="form-group">
+                    <label>Описание</label>
+                    <textarea id="description" rows="5" placeholder="Разкажи историята на творбата..."></textarea>
+                </div>
+
+                <div class="form-group" id="image-inputs">
+                    <label>Главна снимка (витрина)</label>
+                    <input type="file" id="image" accept="image/*" onchange="previewNewMainImage(this)">
+                    <div id="main-image-preview" class="preview-container"></div>
+
+                    <br><br>
+
+                    <label>Галерия (детайлни снимки)</label>
+                    <input type="file" id="galleryFiles" multiple accept="image/*" onchange="previewNewGalleryImages(this)">
+                    <div id="gallery-preview" class="preview-container"></div>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button id="submit-btn" class="cta-button admin-btn" onclick="submitForm()">Качи в сайта</button>
+                    <button id="cancel-btn" class="cta-button admin-btn cancel-btn" style="display: none;" onclick="cancelEdit()">Отказ</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="admin-section list-section">
+            <h2>Активни фигури</h2>
+            <div id="admin-product-list" class="admin-list scrollable-list">
+                <p>Зареждане на списъка...</p>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<script>
+    let allProducts = [];
+    let editingId = null;
+
+    function toggleMenu() {
+        document.getElementById('nav-menu').classList.toggle('active');
+    }
+
+    async function loadAdminList() {
+        const res = await fetch('/api/products');
+        allProducts = await res.json();
+        const list = document.getElementById('admin-product-list');
+
+        if(allProducts.length === 0) {
+            list.innerHTML = "<p>Все още нямате добавени продукти.</p>";
+            return;
+        }
+
+        list.innerHTML = allProducts.map(p => `
+                <div class="admin-item-card">
+                    <div class="admin-item-info">
+                        <strong>${p.title}</strong>
+                        <span>${(p.price || 0 ).toFixed(2)} лв.</span>
+                    </div>
+                    <div class="admin-actions">
+                        <button class="edit-link" onclick="startEdit(${p.id})">Редакт.</button>
+                        <button class="delete-link" onclick="deleteProduct(${p.id})">Изтрий</button>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    let keptGalleryImages = [];
+
+    function startEdit(id) {
+        const product = allProducts.find(p => p.id === id);
+        if(!product) return;
+        editingId = id;
+
+        document.getElementById('title').value = product.title;
+        document.getElementById('price').value = product.price;
+        document.getElementById('description').value = product.description;
+
+        keptGalleryImages = product.gallery ? [...product.gallery] : [];
+
+        renderExistingPreviews(product.mainImage);
+
+        document.getElementById('form-title').innerText = "Редактиране на творба";
+        document.getElementById('submit-btn').innerText = "Запази промените";
+        document.getElementById('submit-btn').style.backgroundColor = "#3498db";
+        document.getElementById('cancel-btn').style.display = "block";
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderExistingPreviews(mainImage) {
+        const mainContainer = document.getElementById('main-image-preview');
+        mainContainer.innerHTML = mainImage ? `
+                <div class="preview-box">
+                    <img src="${mainImage}" alt="Главна">
+                </div>
+            ` : '';
+
+        const galContainer = document.getElementById('gallery-preview');
+        galContainer.innerHTML = keptGalleryImages.map((img, index) => `
+                <div class="preview-box">
+                    <img src="${img}" alt="Галерия">
+                    <button class="remove-img-btn" onclick="removeOldGalleryImage(${index})">&times;</button>
+                </div>
+            `).join('');
+    }
+
+    function removeOldGalleryImage(index) {
+        keptGalleryImages.splice(index, 1);
+        renderExistingPreviews(null);
+    }
+
+    function previewNewMainImage(input) {
+        const container = document.getElementById('main-image-preview');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                container.innerHTML = `<div class="preview-box"><img src="${e.target.result}"></div>`;
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function previewNewGalleryImages(input) {
+        const container = document.getElementById('gallery-preview');
+        if (input.files) {
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    container.innerHTML += `<div class="preview-box"><img src="${e.target.result}" style="border: 2px solid #27ae60;"></div>`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+    }
+
+    function cancelEdit() {
+        editingId = null;
+        keptGalleryImages = [];
+
+        document.getElementById('title').value = "";
+        document.getElementById('price').value = "";
+        document.getElementById('description').value = "";
+        document.getElementById('image').value = "";
+        document.getElementById('galleryFiles').value = "";
+
+        document.getElementById('main-image-preview').innerHTML = "";
+        document.getElementById('gallery-preview').innerHTML = "";
+
+        document.getElementById('form-title').innerText = "Добави нова творба";
+        document.getElementById('submit-btn').innerText = "Качи в сайта";
+        document.getElementById('submit-btn').style.backgroundColor = "#f39c12";
+        document.getElementById('cancel-btn').style.display = "none";
+    }
+
+    function showToast(message, type) {
+        const toast = document.getElementById("toast-notification");
+        toast.innerText = message;
+        toast.className = "show " + type;
+
+        setTimeout(function(){
+            toast.className = toast.className.replace("show", "").trim();
+        }, 3000);
+    }
+
+    async function submitForm() {
+        const titleInput = document.getElementById('title').value.trim();
+        const priceInput = document.getElementById('price').value;
+
+        if (!titleInput) {
+            showToast("Моля, въведете заглавие на творбата!", "error");
+            document.getElementById('title').focus();
+            return;
+        }
+
+        if (!priceInput || priceInput < 0) {
+            showToast("Моля, въведете валидна цена (не може да е празна или отрицателна)!", "error");
+            document.getElementById('price').focus();
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('title', titleInput);
+        formData.append('price', priceInput);
+        formData.append('description', document.getElementById('description').value);
+
+        const imageFile = document.getElementById('image').files[0];
+        if (imageFile) formData.append('image', imageFile);
+
+        const galleryFiles = document.getElementById('galleryFiles').files;
+        for(let i = 0; i < galleryFiles.length; i++) {
+            formData.append('galleryFiles', galleryFiles[i]);
+        }
+
+        if (editingId) {
+            keptGalleryImages.forEach(img => formData.append('existingGallery', img));
+        }
+
+        document.getElementById('loading-overlay').style.display = 'flex';
+
+        try {
+            let response;
+            if (editingId) {
+                response = await fetch('/api/products/' + editingId, { method: 'PUT', body: formData });
+            } else {
+                response = await fetch('/api/products', { method: 'POST', body: formData });
+            }
+
+            document.getElementById('loading-overlay').style.display = 'none';
+
+            if(response.ok) {
+                showToast(editingId ? 'Успешно редактирано!' : 'Успешно добавено!', 'success');
+                cancelEdit();
+                loadAdminList();
+            } else {
+                showToast('Възникна грешка при качването!', 'error');
+            }
+        } catch (error) {
+            document.getElementById('loading-overlay').style.display = 'none';
+            showToast('Проблем с връзката към сървъра!', 'error');
+        }
+    }
+
+    async function deleteProduct(id) {
+        if(confirm('Сигурен ли си? Фигурата ще бъде премахната от сайта и базата данни.')) {
+            try {
+                const response = await fetch('/api/products/' + id, { method: 'DELETE' });
+
+                if(response.ok) {
+                    showToast('Успешно изтрито!', 'success');
+                    loadAdminList();
+                } else {
+                    showToast('Възникна грешка при триенето!', 'error');
+                }
+            } catch (error) {
+                showToast('Проблем с връзката при триене!', 'error');
+            }
+        }
+    }
+
+    loadAdminList();
+</script>
+</body>
+</html>

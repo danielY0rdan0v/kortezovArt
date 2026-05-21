@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kortezov Art | Детайли</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="/" class="logo">Kortezov Art</a>
+    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+    <ul class="nav-links" id="nav-menu">
+        <li><a href="/">Начало</a></li>
+        <li><a href="/products">Продукти</a></li>
+    </ul>
+</nav>
+
+<main class="product-details-container" id="product-content">
+    <p class="loading-text">Зареждане на информацията...</p>
+</main>
+
+<div id="image-modal" class="modal" onclick="closeModal()">
+    <span class="close-btn">&times;</span>
+    <img class="modal-content" id="zoomed-image">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        if (!productId) {
+            document.getElementById('product-content').innerHTML = "<h2>Продуктът не е намерен.</h2>";
+            return;
+        }
+
+        fetch('/api/products/' + productId)
+            .then(response => {
+                if (!response.ok) throw new Error("Грешка");
+                return response.json();
+            })
+            .then(product => {
+                const mainImageUrl = product.mainImage ? product.mainImage : 'https://via.placeholder.com/500x500?text=Няма+снимка';
+
+                let galleryHtml = '';
+                if (product.gallery && product.gallery.length > 0) {
+                    product.gallery.forEach(imgUrl => {
+                        galleryHtml += `<img src="${imgUrl}" class="thumbnail" onclick="changeMainImage('${imgUrl}')" alt="Галерия">`;
+                    });
+                }
+
+                const detailsHtml = `
+                        <div class="product-images">
+                            <img src="${mainImageUrl}" id="main-image" class="main-image zoomable" onclick="openModal()" alt="${product.title}">
+
+                            <div class="gallery-thumbnails">
+                                <img src="${mainImageUrl}" class="thumbnail active-thumb" onclick="changeMainImage('${mainImageUrl}')" alt="Главно">
+                                ${galleryHtml}
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h1 class="product-title">${product.title}</h1>
+                            <p class="product-price">${(product.price || 0).toFixed(2)} лв.</p>
+                            <div class="product-description">
+                                <h3>Описание:</h3>
+                                <p>${product.description}</p>
+                            </div>
+                        </div>
+                    `;
+
+                document.getElementById('product-content').innerHTML = detailsHtml;
+            })
+            .catch(error => {
+                console.error(error);
+                document.getElementById('product-content').innerHTML = "<h2>Грешка при зареждане.</h2>";
+            });
+    });
+
+    function changeMainImage(newSrc) {
+        document.getElementById('main-image').src = newSrc;
+    }
+
+    function openModal() {
+        const modal = document.getElementById('image-modal');
+        const zoomedImg = document.getElementById('zoomed-image');
+        const currentMainImg = document.getElementById('main-image').src;
+
+        modal.style.display = "flex";
+        zoomedImg.src = currentMainImg;
+    }
+
+    function closeModal() {
+        document.getElementById('image-modal').style.display = "none";
+    }
+
+    function toggleMenu() {
+        document.getElementById('nav-menu').classList.toggle('active');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+/* Основен стил и изчистване на границите */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Навигация */
+/* Навигация */
+.navbar {
+    background-color: #222;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    position: relative; /* Важно за позиционирането на менюто */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+}
+
+/* Стил за 3-те чертички */
+.hamburger {
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none; /* Спира маркирането на текста при двойно кликане */
+}
+
+/* Скритото падащо меню */
+.nav-links {
+    list-style: none;
+    display: none; /* Менюто е скрито по подразбиране */
+    position: absolute;
+    top: 60px; /* Позиционира го точно под черната лента */
+    right: 50px;
+    background-color: #333;
+    min-width: 150px;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
+    flex-direction: column;
+    padding: 10px 0;
+    z-index: 100;
+}
+
+/* Този клас се добавя от JavaScript-а, когато цъкнеш чертичките */
+.nav-links.active {
+    display: flex;
+}
+
+.nav-links li {
+    width: 100%;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 15px 20px;
+    display: block; /* Прави целия ред кликаем, не само текста */
+    transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+    background-color: #555;
+    color: #f39c12;
+}
+
+/* Начална секция (Hero) */
+.hero-section {
+    text-align: center;
+    padding: 100px 20px;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.hero-section p {
+    font-size: 20px;
+    margin-bottom: 40px;
+    color: #555;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-button {
+    background-color: #f39c12;
+    color: white;
+    padding: 15px 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #e67e22;
+}
+/* --- Стилове за Галерията --- */
+.gallery-section {
+    padding: 50px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.gallery-section h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #222;
+}
+
+/* Мрежата, която подрежда картите една до друга */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* Самата карта на всеки продукт */
+.product-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer; /* Прави мишката на ръчичка */
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Леко повдигане при посочване */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover; /* Реже снимката правилно, за да не се сплесква */
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.product-card .price {
+    font-size: 20px;
+    font-weight: bold;
+    color: #f39c12;
+}
+/* --- Детайли на продукта --- */
+.product-details-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Позволява на колоните да паднат една под друга на телефони */
+    gap: 50px;
+}
+
+/* Лява колона (Снимки) */
+.product-images {
+    flex: 1;
+    min-width: 300px;
+}
+
+.main-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    transition: 0.3s ease; /* Плавен ефект при смяна */
+}
+
+/* Контейнер за малките снимки */
+.gallery-thumbnails {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto; /* Позволява скролиране, ако има много снимки */
+    padding-bottom: 10px;
+}
+
+.thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Десна колона (Текст) */
+.product-info {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-title {
+    font-size: 36px;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.product-price {
+    font-size: 28px;
+    color: #f39c12;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.product-description h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.product-description p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.loading-text {
+    font-size: 20px;
+    text-align: center;
+    width: 100%;
+}
+/* --- СЪХРАНЕН МОДАЛ ЗА ЗУУМ (Lightbox) --- */
+.zoomable {
+    cursor: zoom-in; /* Прави курсора на лупа, когато си върху голямата снимка */
+}
+
+.modal {
+    display: none; /* Скрито по подразбиране */
+    position: fixed;
+    z-index: 1000; /* Държи го най-отгоре */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Черен, леко прозрачен фон */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    animation: zoomIn 0.3s ease; /* Ефект на изкачаване */
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #f1f1f1;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-btn:hover {
+    color: #f39c12;
+}
+min · CSS
+Copy
+
+    /* --- Професионален Админ Стил --- */
+.admin-page {
+    max-width: 1300px; /* Направихме го по-широко за двете колони */
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Това е магията, която ги слага едно до друго */
+.admin-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start; /* Гарантира, че колоните не се разтягат взаимно по височина */
+}
+
+/* Лявата колона взима малко повече място (формата) */
+.form-section {
+    flex: 1.2;
+}
+
+/* Дясната колона (списъкът) */
+.list-section {
+    flex: 1;
+}
+
+.admin-section h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Добавяме скролбар само на списъка, ако станат твърде много продукти */
+.scrollable-list {
+    max-height: 70vh; /* Максимална височина */
+    overflow-y: auto; /* Позволява скролиране вътре в кутията */
+    padding-right: 10px;
+}
+
+/* Персонализиране на скролбара за по-красив вид */
+.scrollable-list::-webkit-scrollbar { width: 8px; }
+.scrollable-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+.scrollable-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
+.scrollable-list::-webkit-scrollbar-thumb:hover { background: #f39c12; }
+
+/* Картата за формата остава същата */
+.admin-card {
+
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.admin-card h3 {
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #555;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background: #fdfdfd;
+    transition: 0.3s;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #f39c12;
+    outline: none;
+    background: #fff;
+}
+
+.file-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.admin-btn {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+/* Списъкът с продукти */
+.admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-item-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.admin-item-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.admin-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-item-info strong {
+    font-size: 18px;
+    color: #222;
+}
+
+.admin-item-info span {
+    color: #f39c12;
+    font-weight: bold;
+}
+
+.delete-link {
+    color: #e74c3c;
+    background: none;
+    border: 1px solid #e74c3c;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.delete-link:hover {
+    background: #e74c3c;
+    color: white;
+}
+
+/* Респонсив дизайн за телефони */
+/* Респонсив дизайн за телефони и таблети */
+@media (max-width: 900px) {
+    .admin-layout {
+        flex-direction: column; /* Връща ги едно под друго на малки екрани */
+    }
+}
+/* --- Бутони за редакция --- */
+.admin-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-link {
+    color: #3498db;
+    background: none;
+    border: 1px solid #3498db;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.edit-link:hover {
+    background: #3498db;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #95a5a6 !important; /* Сиво за отказ */
+}
+
+.cancel-btn:hover {
+    background-color: #7f8c8d !important;
+}
+/* --- Снимки: Превю и Триене --- */
+.preview-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.preview-box {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-img-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: 0.2s;
+}
+
+.remove-img-btn:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+/* --- Лоудинг Анимация (Spinner) --- */
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Тъмен фон */
+    z-index: 9999; /* Винаги най-отгоре */
+    display: none; /* Скрито по подразбиране */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 6px solid rgba(255, 255, 255, 0.2);
+    border-top: 6px solid #f39c12; /* Оранжевият акцентен цвят */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+#loading-overlay h3 {
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* --- Стил за Toast Известия --- */
+#toast-notification {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 8px;
+    padding: 16px;
+    position: fixed;
+    z-index: 10000;
+    left: 50%;
+    bottom: -50px; /* Скрито надолу */
+    transform: translateX(-50%);
+    font-size: 16px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+    opacity: 0;
+    transition: opacity 0.4s, bottom 0.4s;
+}
+
+/* Класът, който показва известието */
+#toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 30px; /* Плъзга се нагоре */
+}
+
+/* Цветове за успех и грешка */
+#toast-notification.success {
+    background-color: #27ae60; /* Зелено */
+}
+
+#toast-notification.error {
+    background-color: #e74c3c; /* Червено */
+}
