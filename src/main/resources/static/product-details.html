@@ -1,70 +1,105 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kortezov Art | Детайли</title>
+    <title>Stefan Kortezov | Masterpiece Details</title>
+    <link rel="icon" type="image/png" href="/images/faviconV3.png">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="inner-page">
 
-<nav class="navbar">
-    <a href="/" class="logo">Kortezov Art</a>
-    <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
-    <ul class="nav-links" id="nav-menu">
-        <li><a href="/">Начало</a></li>
-        <li><a href="/products">Продукти</a></li>
-    </ul>
-</nav>
+<header class="premium-header solid-header">
+    <div class="logo-container">
+        <a href="/" class="logo-cursive">Stefan Kortezov</a>
+        <span class="logo-sub">COPPER SCULPTURES</span>
+    </div>
 
-<main class="product-details-container" id="product-content">
-    <p class="loading-text">Зареждане на информацията...</p>
+    <nav class="premium-nav">
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/products">SCULPTURES</a></li>
+            <li><a href="/about">ABOUT ME</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="details-wrapper">
+    <div class="back-link-container">
+        <a href="/products" class="back-to-collection"><i class="fa-solid fa-arrow-left-long"></i> Back to Collection</a>
+    </div>
+
+    <div id="product-content" class="details-grid">
+        <p style="color: var(--text-gray); text-align: center; grid-column: 1/-1;">Loading masterpiece details...</p>
+    </div>
 </main>
 
-<div id="image-modal" class="modal" onclick="closeModal()">
+<div id="image-modal" class="premium-modal" onclick="closeModal()">
     <span class="close-btn">&times;</span>
     <img class="modal-content" id="zoomed-image">
 </div>
 
 <script>
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
         const urlParams = new URLSearchParams(window.location.search);
         const productId = urlParams.get('id');
 
         if (!productId) {
-            document.getElementById('product-content').innerHTML = "<h2>Продуктът не е намерен.</h2>";
+            document.getElementById('product-content').innerHTML = "<h2 style='color: var(--copper); text-align: center; width: 100%;'>Sculpture not found.</h2>";
             return;
         }
 
         fetch('/api/products/' + productId)
             .then(response => {
-                if (!response.ok) throw new Error("Грешка");
+                if (!response.ok) throw new Error("Error");
                 return response.json();
             })
             .then(product => {
-                const mainImageUrl = product.mainImage ? product.mainImage : 'https://via.placeholder.com/500x500?text=Няма+снимка';
+                const mainImageUrl = product.mainImage ? product.mainImage : 'https://via.placeholder.com/600x800/111111/c08457?text=No+Image';
 
                 let galleryHtml = '';
                 if (product.gallery && product.gallery.length > 0) {
                     product.gallery.forEach(imgUrl => {
-                        galleryHtml += `<img src="${imgUrl}" class="thumbnail" onclick="changeMainImage('${imgUrl}')" alt="Галерия">`;
+                        galleryHtml += `<img src="${imgUrl}" class="premium-thumb" onclick="changeMainImage('${imgUrl}')" alt="Gallery">`;
                     });
                 }
 
                 const detailsHtml = `
-                        <div class="product-images">
-                            <img src="${mainImageUrl}" id="main-image" class="main-image zoomable" onclick="openModal()" alt="${product.title}">
-
-                            <div class="gallery-thumbnails">
-                                <img src="${mainImageUrl}" class="thumbnail active-thumb" onclick="changeMainImage('${mainImageUrl}')" alt="Главно">
+                        <div class="details-images">
+                            <div class="main-image-container">
+                                <img src="${mainImageUrl}" id="main-image" class="details-main-img zoom-trigger" onclick="openModal()" alt="${product.title}">
+                            </div>
+                            <div class="details-thumbnails">
+                                <img src="${mainImageUrl}" class="premium-thumb active-p-thumb" onclick="changeMainImage('${mainImageUrl}')" alt="Main">
                                 ${galleryHtml}
                             </div>
                         </div>
-                        <div class="product-info">
-                            <h1 class="product-title">${product.title}</h1>
-                            <p class="product-price">${(product.price || 0).toFixed(2)} лв.</p>
-                            <div class="product-description">
-                                <h3>Описание:</h3>
+                        <div class="details-info">
+                            <span class="category-tag">Unique Sculpture</span>
+                            <h1 class="details-title">${product.title}</h1>
+                            <p class="details-price">${(product.price || 0).toFixed(2)} EURO</p>
+
+                            <div class="details-divider"></div>
+
+                            <div class="description-box">
+                                <h3>The Story</h3>
                                 <p>${product.description}</p>
                             </div>
                         </div>
@@ -74,7 +109,7 @@
             })
             .catch(error => {
                 console.error(error);
-                document.getElementById('product-content').innerHTML = "<h2>Грешка при зареждане.</h2>";
+                document.getElementById('product-content').innerHTML = "<h2 style='color: var(--copper); text-align: center; width: 100%;'>Error loading details.</h2>";
             });
     });
 
@@ -86,17 +121,12 @@
         const modal = document.getElementById('image-modal');
         const zoomedImg = document.getElementById('zoomed-image');
         const currentMainImg = document.getElementById('main-image').src;
-
         modal.style.display = "flex";
         zoomedImg.src = currentMainImg;
     }
 
     function closeModal() {
         document.getElementById('image-modal').style.display = "none";
-    }
-
-    function toggleMenu() {
-        document.getElementById('nav-menu').classList.toggle('active');
     }
 </script>
 </body>

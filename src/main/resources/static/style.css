@@ -1,272 +1,496 @@
-/* Основен стил и изчистване на границите */
+/* =========================================
+   ОСНОВНИ НАСТРОЙКИ И ШРИФТОВЕ
+   ========================================= */
+:root {
+    --copper: #c08457; /* Медният/бронзов цвят от снимката */
+    --copper-light: #d89f75;
+    --text-white: #f5f5f5;
+    --text-gray: #b0b0b0;
+
+    --font-cursive: 'Alex Brush', cursive;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: var(--font-sans);
+    background-color: #111;
+    color: var(--text-white);
 }
 
-/* Навигация */
-/* Навигация */
-.navbar {
-    background-color: #222;
+/* =========================================
+   НАЧАЛНА СТРАНИЦА (Full Screen Hero)
+   ========================================= */
+.home-page {
+    overflow: hidden; /* Предотвратява скролирането, за да стои като картина */
+}
+
+/* Сложи пътя към твоята снимка тук! */
+.hero-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.8) 100%), url('images/front-photo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* --- Навигация и Лого --- */
+.premium-header {
+    flex: 0 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 50px;
-    position: relative; /* Важно за позиционирането на менюто */
+    padding: 2rem 5%;
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    letter-spacing: 2px;
-    text-decoration: none;
-    color: white;
-}
-
-/* Стил за 3-те чертички */
-.hamburger {
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-    user-select: none; /* Спира маркирането на текста при двойно кликане */
-}
-
-/* Скритото падащо меню */
-.nav-links {
-    list-style: none;
-    display: none; /* Менюто е скрито по подразбиране */
-    position: absolute;
-    top: 60px; /* Позиционира го точно под черната лента */
-    right: 50px;
-    background-color: #333;
-    min-width: 150px;
-    border-radius: 5px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.3);
-    flex-direction: column;
-    padding: 10px 0;
-    z-index: 100;
-}
-
-/* Този клас се добавя от JavaScript-а, когато цъкнеш чертичките */
-.nav-links.active {
+.logo-container {
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.nav-links li {
+.logo-cursive {
+    font-family: var(--font-cursive);
+    color: var(--copper);
+    font-size: 3rem;
+    text-decoration: none;
+    line-height: 1;
+    margin-bottom: 5px;
+}
+
+.logo-sub {
+    font-family: var(--font-sans);
+    color: var(--copper);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding-left: 5px;
+}
+
+.premium-nav .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem;
+}
+
+.premium-nav .nav-links li a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+/* Медната линия под активния линк (като на снимката) */
+.premium-nav .nav-links li a.active::after,
+.premium-nav .nav-links li a:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
     width: 100%;
+    height: 1px;
+    background-color: var(--copper);
 }
 
-.nav-links a {
-    color: white;
+.premium-nav .nav-links li a:hover {
+    color: var(--copper-light);
+}
+
+.hamburger {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--copper);
+}
+
+/* --- Централен текст --- */
+.hero-content {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+}
+
+.hero-text-box {
+    max-width: 700px;
+}
+
+.hero-title {
+    font-family: var(--font-serif);
+    font-size: 4.5rem;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: #ffffff;
+}
+
+.hero-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1.2rem;
+    color: var(--copper);
+    font-weight: 400;
+    margin-bottom: 3rem;
+    letter-spacing: 0.5px;
+}
+
+/* Бутонът (От снимката) */
+.btn-copper-outline {
+    display: inline-block;
+    padding: 1rem 2rem;
+    border: 1px solid var(--copper);
+    color: var(--copper);
     text-decoration: none;
-    font-size: 16px;
-    padding: 15px 20px;
-    display: block; /* Прави целия ред кликаем, не само текста */
-    transition: background-color 0.3s;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    background: transparent;
 }
 
-.nav-links a:hover {
-    background-color: #555;
-    color: #f39c12;
+.btn-copper-outline:hover {
+    background-color: var(--copper);
+    color: #111;
 }
 
-/* Начална секция (Hero) */
-.hero-section {
+/* --- Долна лента (Features) --- */
+.features-bar {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(15, 15, 15, 0.85); /* Тъмният прозрачен фон */
+    padding: 2rem 5%;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.feature-item i {
+    font-size: 1.8rem;
+    color: var(--copper);
+}
+
+.feature-text h4 {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin-bottom: 3px;
+    font-weight: 500;
+    color: var(--text-white);
+}
+
+.feature-text p {
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    margin: 0;
+}
+
+/* =========================================
+   МОБИЛЕН ИЗГЛЕД
+   ========================================= */
+@media (max-width: 1024px) {
+    .features-bar {
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+    .feature-item {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-page {
+        overflow: auto; /* Позволява скрол на телефон */
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+    }
+
+    .premium-nav .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        right: 5%;
+        background-color: rgba(15,15,15,0.95);
+        padding: 2rem;
+        border: 1px solid var(--copper);
+        gap: 1.5rem;
+        z-index: 1000;
+    }
+
+    .premium-nav .nav-links.active {
+        display: flex;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .feature-item {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+/* =========================================
+   INNER PAGES (Products, Details, Admin)
+   ========================================= */
+.solid-header {
+    background-color: #0a0a0a;
+    border-bottom: 1px solid rgba(192, 132, 87, 0.15); /* Много лек меден кант отдолу */
+}
+
+.page-header {
     text-align: center;
-    padding: 100px 20px;
+    padding: 4rem 5% 2rem 5%;
+    background: linear-gradient(to bottom, #0a0a0a 0%, #111 100%);
 }
 
-.hero-section h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
+.page-title {
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.hero-section p {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #555;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+.page-subtitle {
+    font-family: var(--font-cursive);
+    font-size: 2rem;
+    color: var(--copper);
 }
 
-.cta-button {
-    background-color: #f39c12;
-    color: white;
-    padding: 15px 30px;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: 0.3s;
+/* =========================================
+   SCULPTURES GRID (products.html)
+   ========================================= */
+.products-container {
+    padding: 2rem 5% 5rem 5%;
+    max-width: 1300px;
+    margin: 0 auto;
 }
 
-.cta-button:hover {
-    background-color: #e67e22;
+.sculptures-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2.5rem;
 }
-/* --- Стилове за Галерията --- */
-.gallery-section {
-    padding: 50px 20px;
+
+.sculpture-card {
+    background-color: #151515;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.sculpture-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(192, 132, 87, 0.5); /* Меден кант при посочване */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.sculpture-img-container {
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+    background-color: #080808; /* Още по-тъмен фон за контраст */
+    padding: 12px; /* Това създава самата рамка (паспарту) */
+    position: relative;
+}
+
+.sculpture-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid rgba(192, 132, 87, 0.2); /* Фин меден кант около самата снимка */
+    transition: transform 0.6s ease;
+}
+
+.sculpture-card:hover .sculpture-img-container img {
+    transform: scale(1.06);
+}
+
+.sculpture-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.sculpture-info h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.sculpture-info .price {
+    font-family: var(--font-sans);
+    color: var(--copper);
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+/* =========================================
+   PRODUCT DETAILS PAGE (product-details.html)
+   ========================================= */
+.details-wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    text-align: center;
+    padding: 2rem 5% 5rem 5%;
 }
 
-.gallery-section h2 {
-    font-size: 36px;
-    margin-bottom: 40px;
-    color: #222;
+.back-link-container {
+    margin-bottom: 3rem;
 }
 
-/* Мрежата, която подрежда картите една до друга */
-.products-grid {
+.back-to-collection {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+}
+
+.back-to-collection:hover {
+    color: var(--copper);
+}
+
+.back-to-collection i {
+    margin-right: 10px;
+}
+
+.details-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 5rem;
+    align-items: start;
 }
 
-/* Самата карта на всеки продукт */
-.product-card {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer; /* Прави мишката на ръчичка */
+/* Image Section */
+.main-image-container {
+    background-color: #0f0f0f;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    height: 700px; /* Голям размер за детайлите */
 }
 
-.product-card:hover {
-    transform: translateY(-5px); /* Леко повдигане при посочване */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.product-card img {
+.details-main-img {
     width: 100%;
-    height: 250px;
-    object-fit: cover; /* Реже снимката правилно, за да не се сплесква */
-    border-radius: 5px;
-    margin-bottom: 15px;
+    height: 100%;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: opacity 0.3s;
 }
 
-.product-card h3 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.product-card .price {
-    font-size: 20px;
-    font-weight: bold;
-    color: #f39c12;
-}
-/* --- Детайли на продукта --- */
-.product-details-container {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap; /* Позволява на колоните да паднат една под друга на телефони */
-    gap: 50px;
-}
-
-/* Лява колона (Снимки) */
-.product-images {
-    flex: 1;
-    min-width: 300px;
-}
-
-.main-image {
-    width: 100%;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    transition: 0.3s ease; /* Плавен ефект при смяна */
-}
-
-/* Контейнер за малките снимки */
-.gallery-thumbnails {
+.details-thumbnails {
     display: flex;
     gap: 15px;
-    overflow-x: auto; /* Позволява скролиране, ако има много снимки */
-    padding-bottom: 10px;
+    flex-wrap: wrap;
 }
 
-.thumbnail {
+.premium-thumb {
     width: 80px;
     height: 80px;
     object-fit: cover;
-    border-radius: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: 0.3s ease;
+    transition: border-color 0.3s, opacity 0.3s;
+    opacity: 0.6;
 }
 
-.thumbnail:hover {
-    transform: scale(1.05);
+.premium-thumb:hover, .active-p-thumb {
+    border-color: var(--copper);
+    opacity: 1;
 }
 
-/* Десна колона (Текст) */
-.product-info {
-    flex: 1;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
+/* Info Section */
+.category-tag {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--copper);
+    display: block;
+    margin-bottom: 1rem;
 }
 
-.product-title {
-    font-size: 36px;
-    color: #222;
-    margin-bottom: 15px;
+.details-title {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--text-white);
+    margin-bottom: 1rem;
+    line-height: 1.1;
 }
 
-.product-price {
-    font-size: 28px;
-    color: #f39c12;
-    font-weight: bold;
-    margin-bottom: 30px;
+.details-price {
+    font-family: var(--font-sans);
+    font-size: 1.5rem;
+    color: var(--text-white);
+    font-weight: 300;
+    margin-bottom: 2rem;
 }
 
-.product-description h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #333;
+.details-divider {
+    width: 60px;
+    height: 2px;
+    background-color: var(--copper);
+    margin-bottom: 2.5rem;
 }
 
-.product-description p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 40px;
+.description-box h3 {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-gray);
+    margin-bottom: 1rem;
 }
 
-.loading-text {
-    font-size: 20px;
-    text-align: center;
+.description-box p {
+    color: var(--text-gray);
+    line-height: 1.8;
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    white-space: pre-wrap; /* Запазва новите редове от админа */
+}
+
+.contact-btn {
     width: 100%;
-}
-/* --- СЪХРАНЕН МОДАЛ ЗА ЗУУМ (Lightbox) --- */
-.zoomable {
-    cursor: zoom-in; /* Прави курсора на лупа, когато си върху голямата снимка */
+    text-align: center;
 }
 
-.modal {
-    display: none; /* Скрито по подразбиране */
+/* Modal Styling */
+.premium-modal {
+    display: none;
     position: fixed;
-    z-index: 1000; /* Държи го най-отгоре */
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Черен, леко прозрачен фон */
+    background-color: rgba(0,0,0,0.95);
     justify-content: center;
     align-items: center;
 }
@@ -274,345 +498,479 @@ body {
 .modal-content {
     max-width: 90%;
     max-height: 90%;
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    animation: zoomIn 0.3s ease; /* Ефект на изкачаване */
-}
-
-@keyframes zoomIn {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+    object-fit: contain;
 }
 
 .close-btn {
     position: absolute;
-    top: 20px;
-    right: 40px;
-    color: #f1f1f1;
-    font-size: 50px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.close-btn:hover {
-    color: #f39c12;
-}
-min · CSS
-Copy
-
-    /* --- Професионален Админ Стил --- */
-.admin-page {
-    max-width: 1300px; /* Направихме го по-широко за двете колони */
-    margin: 0 auto;
-    padding: 40px 20px;
-}
-
-/* Това е магията, която ги слага едно до друго */
-.admin-layout {
-    display: flex;
-    gap: 40px;
-    align-items: flex-start; /* Гарантира, че колоните не се разтягат взаимно по височина */
-}
-
-/* Лявата колона взима малко повече място (формата) */
-.form-section {
-    flex: 1.2;
-}
-
-/* Дясната колона (списъкът) */
-.list-section {
-    flex: 1;
-}
-
-.admin-section h2 {
-    font-size: 28px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #ddd;
-    padding-bottom: 10px;
-}
-
-/* Добавяме скролбар само на списъка, ако станат твърде много продукти */
-.scrollable-list {
-    max-height: 70vh; /* Максимална височина */
-    overflow-y: auto; /* Позволява скролиране вътре в кутията */
-    padding-right: 10px;
-}
-
-/* Персонализиране на скролбара за по-красив вид */
-.scrollable-list::-webkit-scrollbar { width: 8px; }
-.scrollable-list::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
-.scrollable-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 4px; }
-.scrollable-list::-webkit-scrollbar-thumb:hover { background: #f39c12; }
-
-/* Картата за формата остава същата */
-.admin-card {
-
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
-.admin-card h3 {
-    margin-bottom: 25px;
-    color: #333;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 14px;
-    color: #555;
-}
-
-.form-group input, .form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    background: #fdfdfd;
-    transition: 0.3s;
-}
-
-.form-group input:focus, .form-group textarea:focus {
-    border-color: #f39c12;
-    outline: none;
-    background: #fff;
-}
-
-.file-inputs {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    background: #f9f9f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.admin-btn {
-    width: 100%;
-    border: none;
-    cursor: pointer;
-}
-
-/* Списъкът с продукти */
-.admin-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.admin-item-card {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: 0.3s;
-}
-
-.admin-item-card:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.admin-item-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.admin-item-info strong {
-    font-size: 18px;
-    color: #222;
-}
-
-.admin-item-info span {
-    color: #f39c12;
-    font-weight: bold;
-}
-
-.delete-link {
-    color: #e74c3c;
-    background: none;
-    border: 1px solid #e74c3c;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.delete-link:hover {
-    background: #e74c3c;
+    top: 30px;
+    right: 50px;
     color: white;
+    font-size: 3rem;
+    cursor: pointer;
 }
 
-/* Респонсив дизайн за телефони */
-/* Респонсив дизайн за телефони и таблети */
+/* Responsive */
 @media (max-width: 900px) {
-    .admin-layout {
-        flex-direction: column; /* Връща ги едно под друго на малки екрани */
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .main-image-container {
+        height: 500px;
+    }
+    .details-title {
+        font-size: 2.2rem;
     }
 }
-/* --- Бутони за редакция --- */
-.admin-actions {
-    display: flex;
-    gap: 10px;
+/* =========================================
+   ADMIN PANEL STYLES (admin.html)
+   ========================================= */
+.admin-wrapper {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 3rem 5% 5rem 5%;
 }
 
-.edit-link {
-    color: #3498db;
-    background: none;
-    border: 1px solid #3498db;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: 0.3s;
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 3rem;
+    align-items: start;
 }
 
-.edit-link:hover {
-    background: #3498db;
-    color: white;
+.admin-section-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--copper);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.cancel-btn {
-    background-color: #95a5a6 !important; /* Сиво за отказ */
+.premium-admin-card {
+    background-color: #151515;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 2.5rem;
+    border-radius: 4px;
 }
 
-.cancel-btn:hover {
-    background-color: #7f8c8d !important;
+.input-group {
+    margin-bottom: 2rem;
 }
-/* --- Снимки: Превю и Триене --- */
-.preview-container {
+
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.input-group input, .input-group textarea {
+    width: 100%;
+    background-color: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 12px;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus, .input-group textarea:focus {
+    outline: none;
+    border-color: var(--copper);
+}
+
+/* File Uploads */
+.file-upload-section {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 20px;
+    margin-bottom: 2.5rem;
+}
+
+.upload-box {
+    background-color: #1a1a1a;
+    padding: 15px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.upload-box label {
+    font-size: 0.7rem;
+    color: var(--copper);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.image-preview-area {
+    margin-top: 15px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    margin-top: 10px;
 }
 
-.preview-box {
+.p-box {
     position: relative;
-    width: 80px;
-    height: 80px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 2px solid #ddd;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 60px;
+    height: 60px;
 }
 
-.preview-box img {
+.p-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid var(--text-gray);
+}
+
+.rm-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--copper);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* Admin List */
+.premium-list-card {
+    background-color: #151515;
+    max-height: 800px;
+    overflow-y: auto;
+    border-radius: 4px;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.item-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+.item-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.remove-img-btn {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    transition: 0.2s;
+.item-details {
+    flex: 1;
 }
 
-.remove-img-btn:hover {
-    background: #c0392b;
-    transform: scale(1.1);
+.item-details strong {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-white);
 }
-/* --- Лоудинг Анимация (Spinner) --- */
+
+.item-details span {
+    font-size: 0.8rem;
+    color: var(--copper);
+}
+
+.item-btns {
+    display: flex;
+    gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-gray);
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.edit-btn:hover { color: var(--copper); border-color: var(--copper); }
+.delete-btn:hover { color: #ff4d4d; border-color: #ff4d4d; }
+
+/* Buttons */
+.btn-copper-solid {
+    background-color: var(--copper);
+    color: #111;
+    border: none;
+    padding: 1rem 2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.btn-copper-solid:hover { opacity: 0.9; }
+
+.btn-cancel {
+    background: transparent;
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    padding: 1rem 2rem;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Spinner Overlay */
 #loading-overlay {
+    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Тъмен фон */
-    z-index: 9999; /* Винаги най-отгоре */
-    display: none; /* Скрито по подразбиране */
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
 }
 
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 6px solid rgba(255, 255, 255, 0.2);
-    border-top: 6px solid #f39c12; /* Оранжевият акцентен цвят */
+.copper-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(192, 132, 87, 0.2);
+    border-top: 3px solid var(--copper);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 20px;
 }
 
-#loading-overlay h3 {
-    font-size: 20px;
-    letter-spacing: 1px;
-}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-/* --- Стил за Toast Известия --- */
+/* Toast */
 #toast-notification {
     visibility: hidden;
     min-width: 250px;
-    background-color: #333;
+    background-color: #222;
     color: #fff;
     text-align: center;
-    border-radius: 8px;
     padding: 16px;
     position: fixed;
-    z-index: 10000;
+    z-index: 10001;
+    bottom: 30px;
     left: 50%;
-    bottom: -50px; /* Скрито надолу */
     transform: translateX(-50%);
-    font-size: 16px;
-    box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-    opacity: 0;
-    transition: opacity 0.4s, bottom 0.4s;
+    border-radius: 4px;
 }
 
-/* Класът, който показва известието */
-#toast-notification.show {
-    visibility: visible;
-    opacity: 1;
-    bottom: 30px; /* Плъзга се нагоре */
+#toast-notification.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s, 2.5s; }
+#toast-notification.success { border-bottom: 3px solid var(--copper); }
+#toast-notification.error { border-bottom: 3px solid #ff4d4d; }
+
+@keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+@keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+/* =========================================
+   ABOUT ME PAGE (about.html)
+   ========================================= */
+.about-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 5% 6rem 5%;
 }
 
-/* Цветове за успех и грешка */
-#toast-notification.success {
-    background-color: #27ae60; /* Зелено */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 5rem;
+    align-items: center;
 }
 
-#toast-notification.error {
-    background-color: #e74c3c; /* Червено */
+/* Изместена медна рамка за снимката */
+.about-image-container {
+    position: relative;
+    z-index: 1;
+}
+
+.about-image-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 2px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+.copper-frame {
+    position: absolute;
+    top: 20px;
+    left: -20px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--copper);
+    z-index: 0;
+}
+
+/* Текстова част */
+.about-heading {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--text-white);
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.about-text-container p {
+    color: var(--text-gray);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    text-align: justify;
+}
+
+.about-values {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.value-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.value-item i {
+    font-size: 1.8rem;
+    color: var(--copper);
+}
+
+.value-item span {
+    color: var(--text-white);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.3;
+}
+
+/* Респонсив дизайн за телефони */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .copper-frame {
+        top: 15px;
+        left: 15px;
+    }
+
+    .about-values {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+/* =========================================
+   ABOUT ME WITH BACKGROUND
+   ========================================= */
+
+/* Задължително сложи твоя снимка тук! */
+.about-page-bg {
+    min-height: 100vh;
+    background-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 100%),
+    url('images/about_me_background_image.png'); /* Път към фоновата снимка */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Снимката стои неподвижна при скрол */
+    color: #ffffff;
+}
+
+.about-hero-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.about-content-overlay {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 2rem 5% 5rem 5%;
+}
+
+.about-main-title {
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Правим целия текст бял */
+.about-description p {
+    color: #ffffff; /* Бял текст */
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5); /* Лека сянка за по-добра четимост */
+}
+
+.about-values-white {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.val-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.val-item i {
+    font-size: 1.5rem;
+    color: var(--copper);
+}
+
+.val-item p {
+    color: #ffffff; /* Бял текст за иконките */
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* Снимката отляво */
+.about-image-side {
+    position: relative;
+    max-width: 500px;
+}
+
+.about-image-side img {
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* Козметична поправка за мобилни устройства */
+@media (max-width: 900px) {
+    .about-page-bg {
+        background-attachment: scroll; /* По-добре за бавни телефони */
+    }
+    .about-main-title {
+        font-size: 2.5rem;
+    }
+    .about-values-white {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
 }

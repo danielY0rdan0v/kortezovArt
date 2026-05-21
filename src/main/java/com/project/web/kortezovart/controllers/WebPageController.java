@@ -25,4 +25,9 @@ public class WebPageController {
     public String admin() {
         return "admin.html";
     }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about-me.html";
+    }
 }

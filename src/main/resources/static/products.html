@@ -1,35 +1,59 @@
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kortezov Art | Всички фигури</title>
+    <title>Stefan Kortezov | The Collection</title>
+    <link rel="icon" type="image/png" href="/images/faviconV3.png">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="inner-page">
 
-<nav class="navbar">
-    <a href="/" class="logo">Kortezov Art</a>
-
-    <div class="hamburger" onclick="toggleMenu()">
-        &#9776;
+<header class="premium-header solid-header">
+    <div class="logo-container">
+        <a href="/" class="logo-cursive">Stefan Kortezov</a>
+        <span class="logo-sub">COPPER SCULPTURES</span>
     </div>
 
-    <ul class="nav-links" id="nav-menu">
-        <li><a href="/">Начало</a></li>
-        <li><a href="/products">Продукти</a></li>
-    </ul>
-</nav>
+    <nav class="premium-nav">
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/products" class="active">SCULPTURES</a></li>
+            <li><a href="/about">ABOUT ME</a></li>
+            <li><a href="#">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
 
-<main class="gallery-section">
-    <h2>Всички метални фигури</h2>
+<section class="page-header">
+    <h1 class="page-title">The Collection</h1>
+    <p class="page-subtitle">Unique, handcrafted masterpieces</p>
+</section>
 
-    <div id="products-container" class="products-grid">
-        <p>Зареждане на продуктите...</p>
+<main class="products-container">
+    <div id="products-grid" class="sculptures-grid">
+        <p style="color: var(--text-gray); text-align: center; width: 100%;">Loading collection...</p>
     </div>
 </main>
 
 <script>
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+
+    // Fetch products from the database
     document.addEventListener("DOMContentLoaded", function() {
         fetchProducts();
     });
@@ -38,31 +62,38 @@
         fetch('/api/products')
             .then(response => response.json())
             .then(products => {
-                const container = document.getElementById('products-container');
+                const container = document.getElementById('products-grid');
+
+                if (products.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-gray); text-align: center; width: 100%;">The collection is currently empty.</p>';
+                    return;
+                }
+
                 container.innerHTML = '';
 
                 products.forEach(product => {
-                    const imageUrl = product.mainImage ? product.mainImage : 'https://via.placeholder.com/300x300?text=Няма+снимка';
+                    // Default image if none exists
+                    const imageUrl = product.mainImage ? product.mainImage : 'https://via.placeholder.com/400x500/111111/c08457?text=No+Image';
 
+                    // Premium Product Card HTML
                     const productCard = `
-                            <div class="product-card" onclick="window.location.href='/product-details?id=${product.id}'">
-                                <img src="${imageUrl}" alt="${product.title}">
-                                <h3>${product.title}</h3>
-                                <p class="price">${(product.price || 0).toFixed(2)} лв.</p>
+                            <div class="sculpture-card" onclick="window.location.href='/product-details?id=${product.id}'">
+                                <div class="sculpture-img-container">
+                                    <img src="${imageUrl}" alt="${product.title}">
+                                </div>
+                                <div class="sculpture-info">
+                                    <h3>${product.title}</h3>
+                                    <p class="price">${(product.price || 0).toFixed(2)} EURO</p>
+                                </div>
                             </div>
                         `;
                     container.innerHTML += productCard;
                 });
             })
             .catch(error => {
-                console.error('Грешка при зареждане:', error);
-                document.getElementById('products-container').innerHTML = '<p>Грешка при зареждане на галерията.</p>';
+                console.error('Error loading products:', error);
+                document.getElementById('products-grid').innerHTML = '<p style="color: #d6336c; text-align: center; width: 100%;">Error loading the collection.</p>';
             });
-    }
-
-    function toggleMenu() {
-        const menu = document.getElementById('nav-menu');
-        menu.classList.toggle('active');
     }
 </script>
 </body>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stefan Kortezov | The Artisan</title>
+    <link rel="icon" type="image/png" href="/images/faviconV3.png">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="about-page-bg">
+
+<div class="about-hero-wrapper">
+
+    <header class="premium-header">
+        <div class="logo-container">
+            <a href="/" class="logo-cursive">Stefan Kortezov</a>
+            <span class="logo-sub">COPPER SCULPTURES</span>
+        </div>
+
+        <nav class="premium-nav">
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="/">HOME</a></li>
+                <li><a href="/products">SCULPTURES</a></li>
+                <li><a href="/about" class="active">ABOUT ME</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="about-content-overlay">
+        <div class="about-grid">
+
+            <div class="about-image-side">
+                <img src="/images/main_photo_about-me.png" alt="Kortezov Art Workshop">
+                <div class="copper-frame"></div>
+            </div>
+
+            <div class="about-text-side">
+                <span class="category-tag">Forged by Passion</span>
+                <h1 class="about-main-title">The Artisan</h1>
+                <div class="details-divider"></div>
+
+                <div class="about-description">
+                    <p>My name is Stefan Kortezov, and creating with my hands has been part of my life for as long as I can remember.
+
+                        Over the years, I’ve worked on countless artistic projects — from handmade jewelry and decorative pieces to all kinds of creative experiments that allowed me to explore different materials, techniques, and forms of expression. At one point, I even spent time pyrographing guitars, turning simple instruments into unique, hand-burned artworks filled with texture and character.</p>
+
+                    <p>For me, creativity was never limited to one craft. I’ve always been drawn to building, shaping, and transforming ordinary materials into something meaningful.
+
+                        Today, I mainly work with copper and metal, materials I’ve grown deeply connected to over time. I’m fascinated by the way cold metal can be shaped into something that feels alive — full of movement, emotion, and personality. Every sculpture I create carries a different mood, inspired by music, nature, the sea, memories, and sometimes simply an idea that refuses to leave my mind until I bring it to life.</p>
+
+                    <p>I don’t aim for perfection. I’m more interested in creating pieces with soul — sculptures that feel raw, expressive, imperfect, and real. I enjoy textures, asymmetry, and the small details that make every piece unique.
+
+                        For me, art is not just decoration. It’s about atmosphere, emotion, and creating something that makes people pause for a moment, look closer, and discover their own meaning inside it.
+
+                        Every sculpture is entirely handcrafted, shaped patiently over time, and created with genuine passion for the process itself.
+
+                        Welcome to my world of copper, fire, texture, and imagination.</p>
+                </div>
+
+                <div class="about-values-white">
+                    <div class="val-item">
+                        <i class="fa-solid fa-fire-burner"></i>
+                        <p>Traditional<br>Techniques</p>
+                    </div>
+                    <div class="val-item">
+                        <i class="fa-solid fa-hammer"></i>
+                        <p>Hand-Forged<br>Details</p>
+                    </div>
+                    <div class="val-item">
+                        <i class="fa-solid fa-fingerprint"></i>
+                        <p>Unique<br>Creations</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+</script>
+</body>
+</html>

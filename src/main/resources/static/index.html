@@ -3,29 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kortezov Art | Начало</title>
+    <title>Stefan Kortezov | Sculptures</title>
+    <link rel="icon" type="image/png" href="/images/faviconV3.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="home-page">
 
-<nav class="navbar">
-    <a href="/" class="logo">Kortezov Art</a>
+<div class="hero-wrapper">
 
-    <div class="hamburger" onclick="toggleMenu()">
-        &#9776;
+    <header class="premium-header">
+        <div class="logo-container">
+            <a href="/" class="logo-cursive">Stefan Kortezov</a>
+            <span class="logo-sub">COPPER SCULPTURES</span>
+        </div>
+
+        <nav class="premium-nav">
+            <div class="hamburger" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="/" class="active">HOME</a></li>
+                <li><a href="/products">SCULPTURES</a></li>
+                <li><a href="/about">ABOUT ME</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="hero-content">
+        <div class="hero-text-box">
+            <h1 class="hero-title">Handmade<br>Sculptures</h1>
+            <p class="hero-subtitle">Forged by imagination, shaped by hand.</p>
+            <a href="/products" class="btn-copper-outline">EXPLORE COLLECTION</a>
+        </div>
+    </main>
+
+    <div class="features-bar">
+        <div class="feature-item">
+            <i class="fa-solid fa-hand-sparkles"></i>
+            <div class="feature-text">
+                <h4>HANDMADE</h4>
+                <p>Every piece is crafted by hand</p>
+            </div>
+        </div>
+        <div class="feature-item">
+            <i class="fa-solid fa-hammer"></i>
+            <div class="feature-text">
+                <h4>QUALITY METAL</h4>
+                <p>Working with copper and other metals</p>
+            </div>
+        </div>
+        <div class="feature-item">
+            <i class="fa-solid fa-gem"></i>
+            <div class="feature-text">
+                <h4>UNIQUE ART</h4>
+                <p>Original sculptures with character</p>
+            </div>
+        </div>
+        <div class="feature-item">
+            <i class="fa-regular fa-heart"></i>
+            <div class="feature-text">
+                <h4>MADE WITH PASSION</h4>
+                <p>Created with love and dedication</p>
+            </div>
+        </div>
     </div>
 
-    <ul class="nav-links" id="nav-menu">
-        <li><a href="/">Начало</a></li>
-        <li><a href="/products">Продукти</a></li>
-    </ul>
-</nav>
-
-<main class="hero-section">
-    <h1>Добре дошли в света на металното изкуство</h1>
-    <p>Аз съм Деката и създавам уникални, ръчно изработени скулптури от метал. Всяко творение носи собствена душа и история.</p>
-    <a href="/products" class="cta-button">Разгледай творбите</a>
-</main>
+</div>
 
 <script>
     function toggleMenu() {
@@ -33,6 +84,5 @@
         menu.classList.toggle('active');
     }
 </script>
-
 </body>
 </html>
