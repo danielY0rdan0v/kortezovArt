@@ -30,4 +30,8 @@ public class WebPageController {
     public String aboutPage() {
         return "about-me.html";
     }
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact.html";
+    }
 }

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stefan Kortezov | Studio Admin</title>
     <link rel="icon" type="image/png" href="/images/faviconV3.png">
-
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,7 +22,7 @@
     </div>
     <nav class="premium-nav">
         <ul class="nav-links">
-            <li><a href="/">HOME</a></li>
+            <li><a href="/home">HOME</a></li>
             <li><a href="/products">SCULPTURES</a></li>
         </ul>
     </nav>
@@ -43,6 +42,15 @@
                 <div class="input-group">
                     <label>Price (EURO)</label>
                     <input type="number" id="price" placeholder="0.00">
+                </div>
+
+                <div class="input-group">
+                    <label>Dimensions (Length x Width x Height in cm)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="dim-l" placeholder="Length" style="width: 33%;">
+                        <input type="number" id="dim-w" placeholder="Width" style="width: 33%;">
+                        <input type="number" id="dim-h" placeholder="Height" style="width: 33%;">
+                    </div>
                 </div>
 
                 <div class="input-group">
@@ -92,6 +100,13 @@
     let editingId = null;
     let keptGalleryImages = [];
 
+    function getCsrfToken() {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; XSRF-TOKEN=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return '';
+    }
+
     async function loadAdminList() {
         const res = await fetch('/api/products');
         allProducts = await res.json();
@@ -125,6 +140,19 @@
         document.getElementById('title').value = p.title;
         document.getElementById('price').value = p.price;
         document.getElementById('description').value = p.description;
+
+        // РАЗДЕЛЯМЕ РАЗМЕРИТЕ В 3-ТЕ ПОЛЕТА
+        if(p.dimensions) {
+            const parts = p.dimensions.split('x');
+            document.getElementById('dim-l').value = parts[0] || "";
+            document.getElementById('dim-w').value = parts[1] || "";
+            document.getElementById('dim-h').value = parts[2] || "";
+        } else {
+            document.getElementById('dim-l').value = "";
+            document.getElementById('dim-w').value = "";
+            document.getElementById('dim-h').value = "";
+        }
+
         keptGalleryImages = p.gallery ? [...p.gallery] : [];
 
         renderPreviews(p.mainImage);
@@ -175,6 +203,12 @@
         document.getElementById('title').value = "";
         document.getElementById('price').value = "";
         document.getElementById('description').value = "";
+
+        // ИЗЧИСТВАМЕ 3-ТЕ ПОЛЕТА
+        document.getElementById('dim-l').value = "";
+        document.getElementById('dim-w').value = "";
+        document.getElementById('dim-h').value = "";
+
         document.getElementById('image').value = "";
         document.getElementById('galleryFiles').value = "";
         document.getElementById('main-preview').innerHTML = "";
@@ -194,12 +228,24 @@
     async function submitForm() {
         const title = document.getElementById('title').value.trim();
         const price = document.getElementById('price').value;
+
+        // ВЗИМАМЕ СТОЙНОСТИТЕ
+        const l = document.getElementById('dim-l').value;
+        const w = document.getElementById('dim-w').value;
+        const h = document.getElementById('dim-h').value;
+
         if(!title || !price) { showToast("Title and Price are required!", "error"); return; }
 
         const formData = new FormData();
         formData.append('title', title);
         formData.append('price', price);
         formData.append('description', document.getElementById('description').value);
+
+        // СЛЕПВАМЕ И ИЗПРАЩАМЕ
+        if(l || w || h) {
+            const dimensionsCombined = `${l || 0}x${w || 0}x${h || 0}`;
+            formData.append('dimensions', dimensionsCombined);
+        }
 
         const mainImg = document.getElementById('image').files[0];
         if(mainImg) formData.append('image', mainImg);
@@ -214,7 +260,14 @@
         try {
             const method = editingId ? 'PUT' : 'POST';
             const url = editingId ? '/api/products/' + editingId : '/api/products';
-            const res = await fetch(url, { method, body: formData });
+
+            const res = await fetch(url, {
+                method: method,
+                headers: {
+                    'X-XSRF-TOKEN': getCsrfToken()
+                },
+                body: formData
+            });
 
             document.getElementById('loading-overlay').style.display = 'none';
             if(res.ok) {
@@ -230,7 +283,12 @@
 
     async function deleteProduct(id) {
         if(confirm('Are you sure you want to remove this masterpiece?')) {
-            const res = await fetch('/api/products/' + id, { method: 'DELETE' });
+            const res = await fetch('/api/products/' + id, {
+                method: 'DELETE',
+                headers: {
+                    'X-XSRF-TOKEN': getCsrfToken()
+                }
+            });
             if(res.ok) { showToast('Removed!', 'success'); loadAdminList(); }
         }
     }

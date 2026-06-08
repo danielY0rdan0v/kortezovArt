@@ -28,10 +28,10 @@
             <i class="fa-solid fa-bars"></i>
         </div>
         <ul class="nav-links" id="nav-menu">
-            <li><a href="/">HOME</a></li>
+            <li><a href="/home">HOME</a></li>
             <li><a href="/products">SCULPTURES</a></li>
             <li><a href="/about">ABOUT ME</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="/contact">CONTACT</a></li>
         </ul>
     </nav>
 </header>
@@ -81,6 +81,38 @@
                     });
                 }
 
+                // ДОБАВЕНО: Логика за показване на размерите
+                // Логика за 3-те кутийки с размери
+                let dimensionsHtml = '';
+                if (product.dimensions && product.dimensions.trim() !== '') {
+                    // Разрязваме текста "50x30x20" на три отделни променливи
+                    const parts = product.dimensions.split('x');
+                    const length = parts[0] || "-";
+                    const width = parts[1] || "-";
+                    const height = parts[2] || "-";
+
+                    dimensionsHtml = `
+                        <h4 style="color: var(--copper); margin-top: 20px; font-size: 0.9rem; text-transform: uppercase;">Dimensions</h4>
+                        <div class="specs-grid">
+                            <div class="spec-box">
+                                <i class="fa-solid fa-arrows-left-right"></i>
+                                <span class="spec-label">Length</span>
+                                <span class="spec-value">${length} cm</span>
+                            </div>
+                            <div class="spec-box">
+                                <i class="fa-solid fa-cube"></i>
+                                <span class="spec-label">Width</span>
+                                <span class="spec-value">${width} cm</span>
+                            </div>
+                            <div class="spec-box">
+                                <i class="fa-solid fa-arrows-up-down"></i>
+                                <span class="spec-label">Height</span>
+                                <span class="spec-value">${height} cm</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 const detailsHtml = `
                         <div class="details-images">
                             <div class="main-image-container">
@@ -95,6 +127,8 @@
                             <span class="category-tag">Unique Sculpture</span>
                             <h1 class="details-title">${product.title}</h1>
                             <p class="details-price">${(product.price || 0).toFixed(2)} EURO</p>
+
+                            ${dimensionsHtml}
 
                             <div class="details-divider"></div>
 

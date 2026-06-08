@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stefan Kortezov | Contact</title>
+
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;500&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="inner-page">
+
+<header class="premium-header solid-header">
+    <div class="logo-container">
+        <a href="/" class="logo-cursive">Stefan Kortezov</a>
+        <span class="logo-sub">COPPER SCULPTURES</span>
+    </div>
+
+    <nav class="premium-nav">
+        <div class="hamburger" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="nav-links" id="nav-menu">
+            <li><a href="/">HOME</a></li>
+            <li><a href="/products">SCULPTURES</a></li>
+            <li><a href="/about">ABOUT ME</a></li>
+            <li><a href="/contact" class="active">CONTACT</a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="page-header">
+    <h1 class="page-title">Get in Touch</h1>
+    <p class="page-subtitle">Let's discuss your next masterpiece</p>
+</section>
+
+<main class="contact-wrapper">
+    <div class="contact-grid">
+
+        <a href="tel:+359878123346" class="contact-card">
+            <i class="fa-solid fa-phone"></i>
+            <h3>Phone</h3>
+            <p>+359 878 123 346</p>
+            <span>Call me directly</span>
+        </a>
+
+        <a href="mailto:stefankortezovart@gmail.com" class="contact-card">
+            <i class="fa-solid fa-envelope"></i>
+            <h3>Email</h3>
+            <p>stefankortezovart@gmail.com</p>
+            <span>Send me a message</span>
+        </a>
+
+        <a href="https://www.instagram.com/stefan.kortezov.art?igsh=NXlvbHlsMmtjdG56" target="_blank" class="contact-card">
+            <i class="fa-brands fa-instagram"></i>
+            <h3>Instagram</h3>
+            <p>@stefan.kortezov</p>
+            <span>Follow my process</span>
+        </a>
+
+        <a href="https://www.facebook.com/profile.php?id=61568641653974&locale=bg_BG" target="_blank" class="contact-card">
+            <i class="fa-brands fa-facebook-f"></i>
+            <h3>Facebook</h3>
+            <p>Stefan Kortezov Art</p>
+            <span>Join the community</span>
+        </a>
+
+    </div>
+</main>
+
+<script>
+    function toggleMenu() {
+        const menu = document.getElementById('nav-menu');
+        menu.classList.toggle('active');
+    }
+</script>
+</body>
+</html>

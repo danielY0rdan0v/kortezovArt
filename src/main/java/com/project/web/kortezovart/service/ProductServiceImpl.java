@@ -72,6 +72,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteById(int id) {
+        Product product = getById(id);
+
+        // 1. Трием основната снимка
+        fileStorageService.deleteFile(product.getMainImage());
+
+        // 2. Трием снимките от галерията (ако има такива)
+        if (product.getGallery() != null) {
+            for (String galleryUrl : product.getGallery()) {
+                fileStorageService.deleteFile(galleryUrl);
+            }
+        }
 
         repository.deleteById(id);
 

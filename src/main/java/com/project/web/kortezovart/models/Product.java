@@ -25,6 +25,8 @@ public class Product {
     @Column(length = 6000)
     private String description;
 
+    private String dimensions;
+
     @NotNull(message = "price can not be empty!")
     @PositiveOrZero(message = "price must be 0 or positive")
     private BigDecimal price;
@@ -98,6 +100,14 @@ public class Product {
 
     public List<String> getGallery() {
         return gallery;
+    }
+
+    public String getDimensions() {
+        return dimensions;
+    }
+
+    public void setDimensions(String dimensions) {
+        this.dimensions = dimensions;
     }
 
     public void setGallery(List<String> gallery) {

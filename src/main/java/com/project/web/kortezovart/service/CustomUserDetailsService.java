@@ -22,10 +22,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("👉 👉 👉 Спринг се опитва да провери потребител: " + username);
+        System.out.println("👉 👉 👉 СТЪПКА 1: Спринг търси потребител: '" + username + "'");
 
         com.project.web.kortezovart.models.User myUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+                .orElseThrow(() -> {
+                    System.out.println("❌ ГРЕШКА: Потребителят не е намерен в базата!");
+                    return new UsernameNotFoundException("User not found with username: " + username);
+                });
+
+        System.out.println("✅ СТЪПКА 2: Потребителят е намерен в базата!");
+        System.out.println("🔑 СТЪПКА 3: Паролата (хешът), прочетена от базата е: '" + myUser.getPassword() + "'");
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(myUser.getUsername())
