@@ -28,7 +28,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/index.html", "/home", "/home.html", // <-- ТУК ДОБАВИХМЕ /home
+                                "/", "/index.html", "/home", "/home.html", 
                                 "/products", "/products.html",
                                 "/product-details", "/product-details.html",
                                 "/about", "/about-me.html",
